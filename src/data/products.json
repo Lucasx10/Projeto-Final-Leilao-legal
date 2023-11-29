@@ -1,0 +1,81 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "nome_produto": "Apple iPhone 14 Pro Max (128 GB) – Preto-espacial",
+      "img_produto": "01_iphone-14.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "Sobre este item Tela Super Retina XDR de 6,7 polegadas com tela Sempre Ativa e ProMotion Dynamic Island, uma nova forma de interação no iPhone Câmera grande-angular de 48 MP para resolução até 4x maior Modo Cinema, agora em 4K Dolby Vision até 30 qps Modo Ação para vídeos em movimento com mais estabilidade",
+      "valor_de_mercado": 8887.0,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    },
+    {
+      "id": 2,
+      "nome_produto": "Drone DJI Mini 3 Pro Fly More Combo",
+      "img_produto": "02_drone.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "Drone DJI Mini 3 Pro Fly More Combo + DJI RC 3 Baterias 4K 34min 18km Sensor Colisão QuickShots – DJI016, Cinza",
+      "valor_de_mercado": 10078.9,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    },
+    {
+      "id": 3,
+      "nome_produto": "Monitor Gamer AOC Hero 24pol 144Hz",
+      "img_produto": "03_monitor.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "Com a tecnologia AMD FreeSync, você elimina qualquer corte ou travamento por meio da sincronização do GPU e do monitor. Experiência impecável com 144Hz Tempo de resposta ultrarrápido de 1ms. Base Ajustável: oferece um controle preciso da altura e ângulo de visão Dial Point: mira vermelha que fica posicionada no centro da tela",
+      "valor_de_mercado": 763.54,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    },
+    {
+      "id": 4,
+      "nome_produto": "EPSON EcoTank L1250",
+      "img_produto": "04_impressora.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "EPSON EcoTank L1250 - Impressora, tanque de Tinta Colorida, Wi-Fi Direct, Comando de voz, Bivolt, Cor: Preto",
+      "valor_de_mercado": 789.65,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    },
+    {
+      "id": 5,
+      "nome_produto": "Placa de Vídeo Gainward - GeForce RTX 3080 Ti Phoenix",
+      "img_produto": "05_placa-video.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "Placa com selo LHR ('Lite Hash Rate') Marca: Gainward  Produto de origem: CN  Garantia: garantia limitada de 12 meses (3 meses legal + 9 meses contratual) em todas as placas de video adquiridas através dos canais oficiais em território brasileiro.",
+      "valor_de_mercado": 15543.84,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    },
+    {
+      "id": 6,
+      "nome_produto": "Samsung Galaxy Z Flip4 256GB ",
+      "img_produto": "06_samsung.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "Samsung Galaxy Z Flip4 256GB 5G Wi-Fi Tela dobrável de 6.7'' Dual Chip Processador Snapdragon 8GB RAM Câmera Dupla - Rosé",
+      "valor_de_mercado": 5114.42,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    },
+    {
+      "id": 7,
+      "nome_produto": "Projetor Epson Portátil Streaming Laser",
+      "img_produto": "07_projetor.jpg",
+      "preco_ultimo_lance": 0.01,
+      "user_ultimo_lance": "admin",
+      "descricao": "EpiqVision EF-12 Projetor Epson Portátil Streaming Laser - 1920 x 1080",
+      "valor_de_mercado": 4598.0,
+      "lances_ofertados": 1,
+      "data_inicio_leilao": "25/09/2023 10:00"
+    }
+  ]
+}
