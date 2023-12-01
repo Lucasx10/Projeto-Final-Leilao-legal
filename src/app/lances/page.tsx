@@ -19,7 +19,7 @@ const AddShots = () => {
   async function onSubmit({ shots }: Inputs) {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/userShots`,
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/user/`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

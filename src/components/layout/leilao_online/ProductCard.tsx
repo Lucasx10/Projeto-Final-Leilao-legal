@@ -28,6 +28,7 @@ export default function ProductCard({ produto }: any) {
   }
 
   async function lanceBt() {
+    console.log(dataUser);
     if(dataUser) {
       const data = {
         timerAction: "lance",
@@ -59,19 +60,24 @@ export default function ProductCard({ produto }: any) {
 
   useEffect(() => {
     if (connection) {
-      connection.on("timer-coutdown", (prod_io: any) => {
+      connection.on("timer-countdown", (prod_io: any) => {
+        console.log("Recebido timer-countdown:", prod_io.roomId);
         if (prod_io.roomId === produto.id) {
           setIsAlive(prod_io.isRunning);
           setTimeCron(prod_io.currentTime);
         }
       });
-      connection.on("timer-coutdown-end", (prod_io: any) => {
+  
+      connection.on("timer-countdown-end", (prod_io: any) => {
+        console.log("Recebido timer-countdown-end:", prod_io);
         if (prod_io.roomId === produto.id) {
           setIsAlive(prod_io.isRunning);
           setTimeCron(prod_io.currentTime);
         }
       });
+  
       connection.on("update-product", (prod_io: any) => {
+        console.log("Recebido update-product:", prod_io);
         if (prod_io.roomId === produto.id) {
           setUserUltLance(prod_io.userUltimoLance);
           setPrecoUltLance(Number(prod_io.precoUltimoLance));
@@ -79,6 +85,7 @@ export default function ProductCard({ produto }: any) {
       });
     }
   }, [connection, produto]);
+  
 
   return (
     <Card>
