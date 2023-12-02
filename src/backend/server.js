@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
       timerId: undefined,
       currentTime: 20,
       isRunning: false,
+      precoUltimoLance: 0.01,
     };
 
     rooms.push(room);
@@ -73,6 +74,17 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on('no-lances', (data) => {
+    const room = roomService.findRoom(rooms, socket);
+  
+    if (room) {
+      // Emitir um evento para informar ao cliente que ele não tem mais lances
+      io.in(roomService.getRoomId(socket)).emit('no-lances', {
+        msg: 'Você não tem mais lances disponíveis.',
+      });
+    }
+  });
+
   // ***********************************************************
   //                set-timer-action event
   // ***********************************************************
@@ -82,8 +94,33 @@ io.on("connection", (socket) => {
       const room = roomService.findRoom(rooms, socket);
       console.log(room);
 
+      if (timerAction.timerAction === 'lance') {
+        const room = roomService.findRoom(rooms, socket);
+
+        // Cancelar o cronômetro anterior
+        if (room.timerId) {
+          clearInterval(room.timerId);
+        }
+
+        room.precoUltimoLance += 0.01;
+
+        room.duration = 20;
+        room.currentTime = room.duration;
+
+        const data = {
+          roomId: room.roomId,
+          userUltimoLance: timerAction.userUltimoLance,
+          precoUltimoLance: Number(room.precoUltimoLance),
+        };
+
+        io.in(roomService.getRoomId(socket)).emit('update-product', data);
+
+        // Emitir evento para iniciar o cronômetro no frontend
+        startCountdownTimer(room.duration, room);
+      }
+      
       if (timerAction.timerAction === 'start') {
-        startCountdownTimer(room.duration);
+        startCountdownTimer(room.duration, room);
       }
 
       if (timerAction.timerAction === 'pause') {
@@ -136,15 +173,12 @@ io.on("connection", (socket) => {
   //                        Timer  
   // ***********************************************************
   
-  function startCountdownTimer(duration) {
-    const room = roomService.findRoom(rooms, socket);
-  
-    if (duration !== 0) {
+  // Função modificada para iniciar o cronômetro
+  function startCountdownTimer(duration, room) {
+    if (duration !== 0 && room) { // Verifica se room é definido
       var timerId = setInterval(function () {
         if (duration <= 0) {
-          // Se a duração for menor ou igual a zero, o cronômetro deve parar
           clearInterval(timerId);
-
           io.sockets.in(roomService.getRoomId(socket)).emit('timer-countdown-end', {
             roomId: room.roomId,
             isRunning: false,
@@ -157,16 +191,15 @@ io.on("connection", (socket) => {
             isRunning: true,
             currentTime: duration,
           });
-  
+
           duration -= 1;
           room.currentTime = duration;
         }
       }, 1000, duration);
-  
+
       room.timerId = timerId;
     }
   }
-  
     
 });
 

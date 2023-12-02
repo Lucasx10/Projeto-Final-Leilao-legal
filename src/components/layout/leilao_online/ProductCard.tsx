@@ -29,27 +29,36 @@ export default function ProductCard({ produto }: any) {
 
   async function lanceBt() {
     console.log(dataUser);
-    if(dataUser) {
+
+    if (dataUser && dataUser.lances > 0) {
+      setDataUser((prevData: { lances: number; }) => ({ ...prevData, lances: prevData.lances - 1 }));
       const data = {
         timerAction: "lance",
         roomId: produto.id,
         userId: dataUser.id,
         userUltimoLance: dataUser.name,
+        precoUltLance: (Number(produto.precoUltimoLance)),
       };
       connection.emit("set-timer-action", data);
       connection.on("user-update", (data:any) => {
         setDataUser(data);
       });
-      connection.on("no-lances", (data:any) => {
-        setMsgAlerta(data.msg);
-        setUrlAlerta("/usuarios/lances");
-        setMostraAlerta(true); 
-      });
-    } else {
+
+      connection.emit('set-timer-duration', 20);
+    } 
+
+    if (!dataUser) {
       setMsgAlerta("Faça o login!");
       setUrlAlerta("/usuarios/login");
       setMostraAlerta(true);
     }
+
+    if (dataUser && dataUser.lances === 0) {
+      setMsgAlerta("Você não tem mais lances disponíveis!");
+      setUrlAlerta("/lances");
+      setMostraAlerta(true);
+    } 
+
   }
 
   useEffect(() => {
@@ -61,7 +70,6 @@ export default function ProductCard({ produto }: any) {
   useEffect(() => {
     if (connection) {
       connection.on("timer-countdown", (prod_io: any) => {
-        console.log("Recebido timer-countdown:", prod_io.roomId);
         if (prod_io.roomId === produto.id) {
           setIsAlive(prod_io.isRunning);
           setTimeCron(prod_io.currentTime);
@@ -69,7 +77,6 @@ export default function ProductCard({ produto }: any) {
       });
   
       connection.on("timer-countdown-end", (prod_io: any) => {
-        console.log("Recebido timer-countdown-end:", prod_io);
         if (prod_io.roomId === produto.id) {
           setIsAlive(prod_io.isRunning);
           setTimeCron(prod_io.currentTime);
@@ -77,12 +84,12 @@ export default function ProductCard({ produto }: any) {
       });
   
       connection.on("update-product", (prod_io: any) => {
-        console.log("Recebido update-product:", prod_io);
         if (prod_io.roomId === produto.id) {
           setUserUltLance(prod_io.userUltimoLance);
           setPrecoUltLance(Number(prod_io.precoUltimoLance));
         }
       });
+
     }
   }, [connection, produto]);
   
@@ -101,7 +108,7 @@ export default function ProductCard({ produto }: any) {
               })}
             </span>
             {dataUser && dataUser.role === 1 && (
-                <Button className="h-6 mt-2" onClick={startBt}>
+                <Button className="h-6 mt-2 mx-auto" onClick={startBt}>
                   <span>START</span>
                 </Button>
               )}
@@ -118,14 +125,22 @@ export default function ProductCard({ produto }: any) {
             />
             </div>
           </div>
-          <div className="flex w-full h-16 justify-center text-center font-bold text-purple-950">
+          <div className="flex w-full h-8 justify-center text-center font-bold text-purple-950">
             <span>{produto.nomeProduto}</span>
           </div>
         </div>
         <div className="flex flex-col w-full h-56 justify-around items-center ">
-          <div>
-            <span>{timeCron}</span>
-          </div>
+        <div>
+          {!isAlive && timeCron !== "" ? (
+            <span style={{ fontSize: "24px", padding: "5px", borderRadius: "5px", backgroundColor: "lightgreen" }}>
+              VENDIDO
+            </span>
+          ) : (
+            <span style={{ fontSize: "24px", padding: "5px", borderRadius: "5px", backgroundColor: Number(timeCron) < 11 ? "lightcoral" : "lightgreen" }}>
+              {timeCron}
+            </span>
+          )}
+        </div>
           <div className="text-lg font-bold">
             <span>
               {precoUltLance.toLocaleString("pt-BR", {
@@ -135,10 +150,10 @@ export default function ProductCard({ produto }: any) {
             </span>
           </div>
           <div>
-            <span>{userUltLance ? userUltLance : "Nenhum lance"}</span>
+            <span style={{ fontWeight: 700, color: "darkblue" }}>{userUltLance ? userUltLance : "Nenhum lance"}</span>
           </div>
 
-          <Button className="bg-[var(--lance-button-color)] w-[90%]" onClick={lanceBt}>
+          <Button className="bg-[var(--lance-button-color)] w-[90%]" onClick={lanceBt} disabled={!isAlive && timeCron !== ""}>
             <span>LANCE</span>
           </Button>
         </div>
